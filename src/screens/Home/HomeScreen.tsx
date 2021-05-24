@@ -1,23 +1,38 @@
+import {useNavigation} from '@react-navigation/core';
 import React, {useEffect} from 'react';
 import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
 import {GifsList} from '../../components/GifsList';
 import {GifWithDetails} from '../../components/GifWithDetails';
 import {RemoteData} from '../../components/RemoteData/RemoteData';
-import {SearchBar} from '../../components/SearchBar';
+import {SearchBar} from '../../components/SearchBar/SearchBar';
 import {dependencies} from '../../Dependencies/Dependencies';
 import {usePresenterFactory} from '../../Presenter/usePresenter';
+import {NavigationRoutes} from '../../services/view/NavigationRoutes';
 import {Colors} from '../../theme/Colors';
 import {Fonts, FontSize} from '../../theme/Fonts';
+import {GifPresentable} from '../GifPresentable';
 import {HomePresenter} from './HomePresenter';
 
+export const selectedGif = 'selectedGif';
+
 export function HomeScreen() {
+  const navigation = useNavigation();
+
   const {state, presenter} = usePresenterFactory(
     () => new HomePresenter(dependencies.gifGateway)
   );
 
   useEffect(() => {
-    presenter.fetchRandomGif();
+    if (!state.isSearchInputFocused) {
+      presenter.fetchRandomGif();
+    }
   }, [presenter]);
+
+  const handleListPress = (gif: GifPresentable) => {
+    navigation.navigate(NavigationRoutes.Details, {
+      [selectedGif]: gif,
+    });
+  };
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -28,6 +43,7 @@ export function HomeScreen() {
           onChange={presenter.search}
           onFocus={presenter.onSearchFocus}
           onCancel={presenter.onSearchCancel}
+          onClear={presenter.onSearchClear}
         />
         <View style={styles.content}>
           <View style={styles.title}>
@@ -43,8 +59,10 @@ export function HomeScreen() {
           {state.isSearchInputFocused && (
             <RemoteData
               state={state.viewState}
-              dataView={() => <GifsList gifs={state.gifs} />}
-              onRetry={presenter.fetchRandomGif}
+              dataView={() => (
+                <GifsList gifs={state.gifs} onPress={handleListPress} />
+              )}
+              onRetry={() => presenter.search(state.searchText)}
             />
           )}
         </View>
@@ -67,6 +85,7 @@ const styles = StyleSheet.create({
   },
   title: {
     paddingTop: 16,
+    paddingBottom: 12,
   },
   titleText: {
     ...Fonts.Regular(FontSize.Header3),

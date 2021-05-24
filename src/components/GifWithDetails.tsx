@@ -1,20 +1,16 @@
 import React from 'react';
-import {StyleSheet, View, Text, Image} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 import {GifPresentable} from '../screens/GifPresentable';
 import {Colors} from '../theme/Colors';
 import {Fonts, FontSize} from '../theme/Fonts';
+import {GifImage} from './GifImage';
 
 export function GifWithDetails(props: {gif: GifPresentable}) {
   const {rating, title, url, slug} = props.gif;
 
   return (
     <View style={styles.container}>
-      <Image
-        fadeDuration={3000}
-        resizeMode={'cover'}
-        style={styles.image}
-        source={{uri: url}}
-      />
+      <GifImage style={styles.image} url={url} />
 
       <View style={styles.details}>
         <View style={styles.title}>
@@ -33,7 +29,7 @@ export function GifWithDetails(props: {gif: GifPresentable}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 16,
+    paddingTop: 8,
   },
   image: {
     width: 350,

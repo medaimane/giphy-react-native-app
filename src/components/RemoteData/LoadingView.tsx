@@ -16,6 +16,7 @@ export function LoadingView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 16,
   },
   loading: {
     justifyContent: 'center',

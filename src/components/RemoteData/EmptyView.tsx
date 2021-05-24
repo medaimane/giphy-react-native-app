@@ -16,12 +16,14 @@ export function EmptyView() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.GrayBackground,
+    padding: 16,
+    backgroundColor: Colors.Light,
     justifyContent: 'center',
     alignItems: 'center',
   },
   message: {
-    ...Fonts.Regular(),
+    ...Fonts.SemiBold(),
     textAlign: 'center',
+    color: Colors.Secondary,
   },
 });

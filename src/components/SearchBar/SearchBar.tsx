@@ -1,4 +1,4 @@
-import React, {createRef} from 'react';
+import React, {createRef, useState} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {local} from '../Localization/local';
-import {Colors} from '../theme/Colors';
-import {Fonts} from '../theme/Fonts';
-import {SearchSVG} from '../theme/svg/svg';
+import {local} from '../../Localization/local';
+import {Colors} from '../../theme/Colors';
+import {Fonts} from '../../theme/Fonts';
+import {ClearSVG, SearchSVG} from '../../theme/svg/svg';
 
 interface Props {
   isFocused: boolean;
@@ -20,45 +20,66 @@ interface Props {
   onChange: (text: string) => void;
   onFocus: () => void;
   onCancel: () => void;
+  onClear: () => void;
 }
 
 export function SearchBar(props: Props) {
   const input = createRef<TextInput>();
 
-  const onBlur = () => {
-    input.current?.clear();
-
-    props.onCancel();
-  };
+  const [isClear, setIsClear] = useState<boolean>(false);
 
   const onFocus = () => {
     props.onFocus();
   };
 
+  const handleClear = () => {
+    input.current?.clear();
+
+    props.onClear();
+
+    setIsClear(false);
+  };
+
   const handleCancel = () => {
+    setIsClear(false);
+
+    input.current?.clear();
     input.current?.blur();
+
+    props.onCancel();
   };
 
   const handleFocus = () => {
     input.current?.focus();
   };
 
+  const handleChange = (text: string) => {
+    setIsClear(text.length !== 0);
+
+    props.onChange(text);
+  };
+
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback style={styles.touchable} onPress={handleFocus}>
         <View style={styles.search}>
-          <SearchSVG fill={Colors.GrayText} />
+          <SearchSVG fill={Colors.Gray} />
           <TextInput
             ref={input}
             style={styles.input}
             value={props.text}
             placeholder={local.search}
-            onChangeText={props.onChange}
+            onChangeText={handleChange}
             onFocus={onFocus}
-            onBlur={onBlur}
           />
+          {isClear && (
+            <TouchableOpacity style={styles.clearButton} onPress={handleClear}>
+              <ClearSVG fill={Colors.White} width={16} height={16} />
+            </TouchableOpacity>
+          )}
         </View>
       </TouchableWithoutFeedback>
+
       {props.isFocused && (
         <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
           <Text style={styles.cancel}>{local.cancel}</Text>
@@ -86,8 +107,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.GrayBackground,
   },
   input: {
-    ...Fonts.SemiBold(),
-    color: Colors.GrayText,
+    ...Fonts.Bold(),
+    color: Colors.Gray,
     paddingLeft: 8,
     flex: 1,
   },
@@ -96,6 +117,14 @@ const styles = StyleSheet.create({
   },
   cancel: {
     ...Fonts.SemiBold(),
-    color: Colors.GrayText,
+    color: Colors.Gray,
+  },
+  clearButton: {
+    backgroundColor: Colors.Gray,
+    height: 16,
+    width: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

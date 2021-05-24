@@ -1,3 +1,5 @@
+import {Subject} from 'rxjs';
+import {debounceTime} from 'rxjs/operators';
 import {Presenter} from '../../Presenter/Presenter';
 import {RemoteDataState} from '../../Presenter/RemoteDataState';
 import {local} from '../../Localization/local';
@@ -19,24 +21,36 @@ export interface HomeOutput {
 }
 
 export class HomePresenter extends Presenter<HomeOutput> {
+  private readonly searchSubject = new Subject<string>();
+
   constructor(private readonly gifGateway: GifGateway) {
     super();
+
+    this.searchSubject.pipe(debounceTime(1000)).subscribe((text) => {
+      this.gifGateway
+        .search(text)
+        .subscribe(this.handleSearchSuccess, this.handleSearchError);
+    });
   }
 
   getInitialOutput(): HomeOutput {
     return {
       title: '',
-
       isSearchInputFocused: false,
       searchText: '',
-
       viewState: RemoteDataState.Loading,
-
       gif: NullGif,
-
       gifs: [],
     };
   }
+
+  onSearchClear = () => {
+    this.update({
+      title: local.searchResults,
+      isSearchInputFocused: true,
+      gifs: [],
+    });
+  };
 
   onSearchFocus = () => {
     this.update({
@@ -49,13 +63,27 @@ export class HomePresenter extends Presenter<HomeOutput> {
     this.update({
       title: local.randomSelectedGif,
       isSearchInputFocused: false,
+      gifs: [],
     });
 
-    this.fetchRandomGif();
+    // TODO: Call this.fetchRandomGif() to update random gif after canceling
   };
 
   search = (text: string) => {
-    this.update({searchText: text});
+    const isInputEmpty = text.length === 0;
+    const viewState = isInputEmpty
+      ? RemoteDataState.Data
+      : RemoteDataState.Loading;
+
+    this.update({
+      gifs: [],
+      viewState,
+      searchText: text,
+    });
+
+    if (!isInputEmpty) {
+      this.searchSubject.next(text);
+    }
   };
 
   fetchRandomGif = () => {
@@ -81,6 +109,19 @@ export class HomePresenter extends Presenter<HomeOutput> {
   };
 
   private handleError = () => {
+    this.update({viewState: RemoteDataState.Error});
+  };
+
+  private handleSearchSuccess = (gifs: GifJSON[]) => {
+    const isEmpty = gifs.length === 0;
+
+    this.update({
+      viewState: isEmpty ? RemoteDataState.Empty : RemoteDataState.Data,
+      gifs: gifs.map(makeGifPresentable),
+    });
+  };
+
+  private handleSearchError = () => {
     this.update({viewState: RemoteDataState.Error});
   };
 }

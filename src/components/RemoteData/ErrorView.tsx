@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.White,
     paddingHorizontal: 20,
+    paddingTop: 16,
   },
   textContainer: {
     alignItems: 'center',

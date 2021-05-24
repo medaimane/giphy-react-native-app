@@ -15,7 +15,7 @@ export class GifService implements GifGateway {
 
   search(text: string): Observable<GifJSON[]> {
     return this.networkingService
-      .getJSON<GifsJSON>('v1/gifs/search', `&q=${text}`)
+      .getJSON<GifsJSON>('v1/gifs/search', `&q=${text}&limit=20`)
       .pipe(map<GifsJSON, GifJSON[]>((json) => json.data));
   }
 }

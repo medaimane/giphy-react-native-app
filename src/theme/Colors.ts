@@ -8,7 +8,6 @@ export const Colors = {
   Light: '#FFF4EE',
   Dark: '#BB8378',
 
+  Gray: '#8E8E93',
   GrayBackground: '#E8E9EA',
-  GrayText: '#8E8E93',
-  LighterGray: '#D4D4D4',
 };
