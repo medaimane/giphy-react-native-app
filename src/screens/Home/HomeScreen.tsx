@@ -13,8 +13,6 @@ import {Fonts, FontSize} from '../../theme/Fonts';
 import {GifPresentable} from '../GifPresentable';
 import {HomePresenter} from './HomePresenter';
 
-export const selectedGif = 'selectedGif';
-
 export function HomeScreen() {
   const navigation = useNavigation();
 
@@ -29,9 +27,7 @@ export function HomeScreen() {
   }, [presenter]);
 
   const handleListPress = (gif: GifPresentable) => {
-    navigation.navigate(NavigationRoutes.Details, {
-      [selectedGif]: gif,
-    });
+    navigation.navigate(NavigationRoutes.Details, {gif});
   };
 
   return (
@@ -49,6 +45,7 @@ export function HomeScreen() {
           <View style={styles.title}>
             <Text style={styles.titleText}>{state.title}</Text>
           </View>
+          {/* Refactor to one RemoteData componet */}
           {!state.isSearchInputFocused && (
             <RemoteData
               state={state.viewState}
