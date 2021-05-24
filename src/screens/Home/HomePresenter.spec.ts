@@ -165,7 +165,7 @@ describe('HomePresenter', () => {
         expect(dependencies.gifGateway.search).toBeCalledWith('Cat');
       });
 
-      it('has debounce on the search', () => {
+      it('has debounce on search', () => {
         sut.search('C');
         sut.search('Ca');
         sut.search('Cat');

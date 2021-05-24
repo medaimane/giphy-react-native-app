@@ -4,4 +4,5 @@ export const local = {
   search: 'Search',
   searchResults: 'Search Results:',
   randomSelectedGif: 'Random selected GIF:',
+  ageRestrictionBadge: '16+',
 };

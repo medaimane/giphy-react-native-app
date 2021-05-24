@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
+import {local} from '../../Localization/local';
 import {GifPresentable} from '../../screens/GifPresentable';
 import {Colors} from '../../theme/Colors';
 import {Fonts, FontSize} from '../../theme/Fonts';
@@ -18,8 +19,8 @@ export function GifWithDetails(props: {gif: GifPresentable}) {
           <Text style={styles.url}>{slug}</Text>
         </View>
 
-        <View style={styles.rating}>
-          <Text style={styles.ratingText}>{rating}</Text>
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>{local.ageRestrictionBadge}</Text>
         </View>
       </View>
     </View>
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
     color: Colors.Secondary,
   },
 
-  rating: {
+  badge: {
     width: 50,
     height: 50,
     borderRadius: 25,
@@ -67,8 +68,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  ratingText: {
-    ...Fonts.Bold(FontSize.Title),
+  badgeText: {
+    ...Fonts.Bold(FontSize.Header2),
     color: Colors.Primary,
   },
 });
