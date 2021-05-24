@@ -23,7 +23,7 @@ describe('HomePresenter', () => {
 
   it('outputs initial state', () => {
     expect<HomeOutput>(sut.getInitialOutput()).toEqual({
-      title: '',
+      title: local.randomSelectedGif,
       searchText: '',
       isSearchInputFocused: false,
       viewState: RemoteDataState.Loading,
@@ -38,13 +38,10 @@ describe('HomePresenter', () => {
   });
 
   describe('fetchRandomGif', () => {
-    it('outputs a specific title and viewState as Loading', () => {
+    it('outputs viewState as Loading', () => {
       sut.fetchRandomGif();
 
-      expectUpdate({
-        title: local.randomSelectedGif,
-        viewState: RemoteDataState.Loading,
-      });
+      expectUpdate({viewState: RemoteDataState.Loading});
     });
 
     it('calls getRandomGif from gateway', () => {
@@ -54,7 +51,7 @@ describe('HomePresenter', () => {
     });
 
     describe('when success', () => {
-      it('outputs viewState as Data when result is not null', () => {
+      it('outputs gif presentable and viewState as Data', () => {
         dependencies.gifGateway.getRandomGif.mockReturnValue(of(gifStub));
 
         sut.fetchRandomGif();
@@ -68,14 +65,6 @@ describe('HomePresenter', () => {
             url: 'some url',
           },
         });
-      });
-
-      it('outputs viewState as Emty when result is null', () => {
-        dependencies.gifGateway.getRandomGif.mockReturnValue(of(null));
-
-        sut.fetchRandomGif();
-
-        expectUpdate({viewState: RemoteDataState.Empty});
       });
     });
 
@@ -116,14 +105,10 @@ describe('HomePresenter', () => {
   });
 
   describe('onSearchClear', () => {
-    it('outputs a specific title, isSearchInputFocused as true and gifs equal to an empty array', () => {
+    it('outputs gifs equal to an empty array', () => {
       sut.onSearchClear();
 
-      expectUpdate({
-        title: local.searchResults,
-        isSearchInputFocused: true,
-        gifs: [],
-      });
+      expectUpdate({gifs: []});
     });
   });
 

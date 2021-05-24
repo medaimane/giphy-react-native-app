@@ -7,15 +7,15 @@ import {GifGateway} from './GifGateway';
 export class GifService implements GifGateway {
   constructor(private readonly networkingService: NetworkingService) {}
 
-  getRandomGif(): Observable<GifJSON | null> {
+  getRandomGif(): Observable<GifJSON> {
     return this.networkingService
       .getJSON<{data: GifJSON}>(`v1/gifs/random`)
-      .pipe(map<{data: GifJSON}, GifJSON>((json) => json.data ?? null));
+      .pipe(map((json) => json.data));
   }
 
   search(text: string): Observable<GifJSON[]> {
     return this.networkingService
       .getJSON<GifsJSON>('v1/gifs/search', `&q=${text}&limit=20`)
-      .pipe(map<GifsJSON, GifJSON[]>((json) => json.data));
+      .pipe(map((json) => json.data));
   }
 }

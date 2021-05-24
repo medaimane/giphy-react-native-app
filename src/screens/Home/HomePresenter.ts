@@ -35,7 +35,7 @@ export class HomePresenter extends Presenter<HomeOutput> {
 
   getInitialOutput(): HomeOutput {
     return {
-      title: '',
+      title: local.randomSelectedGif,
       isSearchInputFocused: false,
       searchText: '',
       viewState: RemoteDataState.Loading,
@@ -45,11 +45,7 @@ export class HomePresenter extends Presenter<HomeOutput> {
   }
 
   onSearchClear = () => {
-    this.update({
-      title: local.searchResults,
-      isSearchInputFocused: true,
-      gifs: [],
-    });
+    this.update({gifs: []});
   };
 
   onSearchFocus = () => {
@@ -65,9 +61,6 @@ export class HomePresenter extends Presenter<HomeOutput> {
       isSearchInputFocused: false,
       gifs: [],
     });
-
-    // TODO: Update a random gif after canceling
-    // this.fetchRandomGif()
   };
 
   search = (text: string) => {
@@ -88,25 +81,18 @@ export class HomePresenter extends Presenter<HomeOutput> {
   };
 
   fetchRandomGif = () => {
-    this.update({
-      title: local.randomSelectedGif,
-      viewState: RemoteDataState.Loading,
-    });
+    this.update({viewState: RemoteDataState.Loading});
 
     this.gifGateway
       .getRandomGif()
       .subscribe(this.handleSuccess, this.handleError);
   };
 
-  private handleSuccess = (gif: GifJSON | null) => {
-    if (!gif) {
-      this.update({viewState: RemoteDataState.Empty});
-    } else {
-      this.update({
-        viewState: RemoteDataState.Data,
-        gif: makeGifPresentable(gif),
-      });
-    }
+  private handleSuccess = (gif: GifJSON) => {
+    this.update({
+      viewState: RemoteDataState.Data,
+      gif: makeGifPresentable(gif),
+    });
   };
 
   private handleError = () => {
