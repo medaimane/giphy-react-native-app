@@ -28,10 +28,6 @@ export function SearchBar(props: Props) {
 
   const [isClear, setIsClear] = useState<boolean>(false);
 
-  const onFocus = () => {
-    props.onFocus();
-  };
-
   const handleClear = () => {
     input.current?.clear();
 
@@ -70,7 +66,7 @@ export function SearchBar(props: Props) {
             value={props.text}
             placeholder={local.search}
             onChangeText={handleChange}
-            onFocus={onFocus}
+            onFocus={props.onFocus}
           />
           {isClear && (
             <TouchableOpacity style={styles.clearButton} onPress={handleClear}>

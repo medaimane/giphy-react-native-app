@@ -1,13 +1,6 @@
 import React, {ReactNode} from 'react';
-import {
-  ActivityIndicator,
-  Dimensions,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native';
+import {StyleSheet, View, ViewStyle} from 'react-native';
 import {RemoteDataState} from '../../Presenter/RemoteDataState';
-import {Colors} from '../../theme/Colors';
 import {EmptyView} from './EmptyView';
 import {ErrorView} from './ErrorView';
 import {LoadingView} from './LoadingView';

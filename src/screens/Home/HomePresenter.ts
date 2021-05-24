@@ -66,7 +66,8 @@ export class HomePresenter extends Presenter<HomeOutput> {
       gifs: [],
     });
 
-    // TODO: Call this.fetchRandomGif() to update random gif after canceling
+    // TODO: Update a random gif after canceling
+    // this.fetchRandomGif()
   };
 
   search = (text: string) => {

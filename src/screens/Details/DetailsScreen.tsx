@@ -1,13 +1,12 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/core';
-import {GifWithDetails} from '../../components/GifWithDetails';
+import {GifWithDetails} from '../../components/Gifs/GifWithDetails';
 import {EmptyView} from '../../components/RemoteData/EmptyView';
 import {NavigationParamsProps} from '../../services/view/NavigationParamsProps';
 import {NavigationRoutes} from '../../services/view/NavigationRoutes';
 import {Colors} from '../../theme/Colors';
 import {GifPresentable} from '../GifPresentable';
-import {Fonts, FontSize} from '../../theme/Fonts';
 
 export function DetailsScreen() {
   const navigation = useNavigation();

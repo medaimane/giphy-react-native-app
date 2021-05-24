@@ -1,8 +1,8 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {GifPresentable} from '../screens/GifPresentable';
-import {Colors} from '../theme/Colors';
-import {Fonts, FontSize} from '../theme/Fonts';
+import {GifPresentable} from '../../screens/GifPresentable';
+import {Colors} from '../../theme/Colors';
+import {Fonts, FontSize} from '../../theme/Fonts';
 import {GifImage} from './GifImage';
 
 export function GifWithDetails(props: {gif: GifPresentable}) {

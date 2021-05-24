@@ -11,6 +11,7 @@ export enum AjaxMethod {
   // POST, PUT...
 }
 
+// TODO: Add unit tests.
 export class NetworkingServiceImpl implements NetworkingService {
   constructor(
     private readonly ajaxCreationMethod: AjaxCreationMethod,

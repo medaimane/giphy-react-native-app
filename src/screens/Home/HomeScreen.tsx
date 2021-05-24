@@ -1,8 +1,8 @@
 import {useNavigation} from '@react-navigation/core';
 import React, {useEffect} from 'react';
 import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
-import {GifsList} from '../../components/GifsList';
-import {GifWithDetails} from '../../components/GifWithDetails';
+import {GifsList} from '../../components/Gifs/GifsList';
+import {GifWithDetails} from '../../components/Gifs/GifWithDetails';
 import {RemoteData} from '../../components/RemoteData/RemoteData';
 import {SearchBar} from '../../components/SearchBar/SearchBar';
 import {dependencies} from '../../Dependencies/Dependencies';
@@ -30,6 +30,22 @@ export function HomeScreen() {
     navigation.navigate(NavigationRoutes.Details, {gif});
   };
 
+  const handleRetry = () => {
+    if (state.isSearchInputFocused) {
+      presenter.search(state.searchText);
+    } else {
+      presenter.fetchRandomGif();
+    }
+  };
+
+  const dataView = () => {
+    if (state.isSearchInputFocused) {
+      return <GifsList gifs={state.gifs} onPress={handleListPress} />;
+    }
+
+    return <GifWithDetails gif={state.gif} />;
+  };
+
   return (
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.container}>
@@ -45,23 +61,11 @@ export function HomeScreen() {
           <View style={styles.title}>
             <Text style={styles.titleText}>{state.title}</Text>
           </View>
-          {/* Refactor to one RemoteData componet */}
-          {!state.isSearchInputFocused && (
-            <RemoteData
-              state={state.viewState}
-              dataView={() => <GifWithDetails gif={state.gif} />}
-              onRetry={presenter.fetchRandomGif}
-            />
-          )}
-          {state.isSearchInputFocused && (
-            <RemoteData
-              state={state.viewState}
-              dataView={() => (
-                <GifsList gifs={state.gifs} onPress={handleListPress} />
-              )}
-              onRetry={() => presenter.search(state.searchText)}
-            />
-          )}
+          <RemoteData
+            state={state.viewState}
+            dataView={dataView}
+            onRetry={handleRetry}
+          />
         </View>
       </View>
     </SafeAreaView>

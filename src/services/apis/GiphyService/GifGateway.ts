@@ -1,5 +1,5 @@
 import {Observable} from 'rxjs';
-import {GifJSON, GifsJSON} from '../models/GifJSON';
+import {GifJSON} from '../models/GifJSON';
 
 export interface GifGateway {
   getRandomGif(): Observable<GifJSON | null>;

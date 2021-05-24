@@ -17,12 +17,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: Colors.Light,
+    backgroundColor: Colors.White,
     justifyContent: 'center',
     alignItems: 'center',
   },
   message: {
-    ...Fonts.SemiBold(),
+    ...Fonts.Regular(),
     textAlign: 'center',
     color: Colors.Secondary,
   },

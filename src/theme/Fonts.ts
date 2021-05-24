@@ -12,32 +12,28 @@ export enum FontSize {
 }
 
 export const Fonts = {
+  // TODO: Add more font styles like: fontFamily...
   Regular: (size = FontSize.Normal): TextStyle => ({
-    // fontFamily: 'OpenSans-Regular',
     fontSize: size,
     fontWeight: 'normal',
     color: Colors.Black,
   }),
   Bold: (size = FontSize.Normal): TextStyle => ({
-    // fontFamily: 'OpenSans-Bold',
     fontSize: size,
     fontWeight: 'bold',
     color: Colors.Black,
   }),
   Italic: (size = FontSize.Normal): TextStyle => ({
-    // fontFamily: 'OpenSans-Italic',
     fontSize: size,
     fontStyle: 'italic',
     color: Colors.Black,
   }),
   Light: (size = FontSize.Normal): TextStyle => ({
-    // fontFamily: 'OpenSans-Light',
     fontSize: size,
     fontWeight: '100',
     color: Colors.Black,
   }),
   SemiBold: (size = FontSize.Normal): TextStyle => ({
-    // fontFamily: 'OpenSans-SemiBold',
     fontWeight: '500',
     fontSize: size,
     color: Colors.Black,

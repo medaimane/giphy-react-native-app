@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, FlatList, TouchableOpacity} from 'react-native';
-import {GifPresentable} from '../screens/GifPresentable';
-import {Colors} from '../theme/Colors';
+import {GifPresentable} from '../../screens/GifPresentable';
+import {Colors} from '../../theme/Colors';
 import {GifImage} from './GifImage';
 
 interface Props {

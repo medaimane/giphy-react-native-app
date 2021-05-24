@@ -1,9 +1,9 @@
-import {of, Subject, throwError} from 'rxjs';
+import {of, throwError} from 'rxjs';
 import {local} from '../../Localization/local';
 import {RemoteDataState} from '../../Presenter/RemoteDataState';
 import {HomeOutput, HomePresenter} from './HomePresenter';
-import {GifJSON, NullImage} from '../../services/apis/models/GifJSON';
 import {TestAssembly} from '../../../__tests__/stubs/TestAssembly';
+import {gifStub} from '../../../__tests__/stubs/gifStub';
 
 describe('HomePresenter', () => {
   let sut: HomePresenter;
@@ -225,16 +225,3 @@ describe('HomePresenter', () => {
     expect(updateHandlerSpy).toBeCalledWith(expect.objectContaining(output));
   }
 });
-
-const gifStub: GifJSON = {
-  id: 'some id',
-  title: 'some title',
-  slug: 'some slug',
-  rating: 'some rating',
-  images: {
-    original: {
-      ...NullImage,
-      url: 'some url',
-    },
-  },
-};
