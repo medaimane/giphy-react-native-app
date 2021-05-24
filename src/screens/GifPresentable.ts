@@ -5,11 +5,9 @@ export interface GifPresentable {
   title: string;
   slug: string;
   url: string;
-  rating: string;
 }
 
 export const NullGif: GifPresentable = {
-  rating: '',
   title: '',
   slug: '',
   url: '',
@@ -18,7 +16,6 @@ export const NullGif: GifPresentable = {
 
 export function makeGifPresentable(gif: GifJSON): GifPresentable {
   return {
-    rating: gif.rating,
     title: gif.title,
     url: gif.images.original.url,
     slug: gif.slug,

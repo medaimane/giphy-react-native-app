@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/core';
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
 import {GifsList} from '../../components/Gifs/GifsList';
 import {GifWithDetails} from '../../components/Gifs/GifWithDetails';
@@ -8,23 +8,29 @@ import {SearchBar} from '../../components/SearchBar/SearchBar';
 import {dependencies} from '../../Dependencies/Dependencies';
 import {usePresenterFactory} from '../../Presenter/usePresenter';
 import {NavigationRoutes} from '../../services/view/NavigationRoutes';
+import {Timer, TimerImpl} from '../../services/view/Timer';
 import {Colors} from '../../theme/Colors';
 import {Fonts, FontSize} from '../../theme/Fonts';
 import {GifPresentable} from '../GifPresentable';
 import {HomePresenter} from './HomePresenter';
 
+const RandomGifDisplayDelay = 30000;
+
 export function HomeScreen() {
   const navigation = useNavigation();
+  const timer = useRef<Timer>(new TimerImpl());
 
   const {state, presenter} = usePresenterFactory(
     () => new HomePresenter(dependencies.gifGateway)
   );
 
   useEffect(() => {
-    if (!state.isSearchInputFocused) {
-      presenter.fetchRandomGif();
-    }
-  }, [presenter]);
+    timer.current.start(() => {
+      if (!state.isSearchInputFocused) {
+        presenter.fetchRandomGif();
+      }
+    }, RandomGifDisplayDelay);
+  }, [timer, presenter]);
 
   const handleListPress = (gif: GifPresentable) => {
     navigation.navigate(NavigationRoutes.Details, {gif});

@@ -31,7 +31,6 @@ describe('HomePresenter', () => {
         title: '',
         url: '',
         slug: '',
-        rating: '',
         id: '',
       },
       gifs: [],
@@ -64,7 +63,6 @@ describe('HomePresenter', () => {
           viewState: RemoteDataState.Data,
           gif: {
             id: 'some id',
-            rating: 'some rating',
             slug: 'some slug',
             title: 'some title',
             url: 'some url',
@@ -186,7 +184,6 @@ describe('HomePresenter', () => {
             gifs: [
               {
                 id: 'some id',
-                rating: 'some rating',
                 slug: 'some slug',
                 title: 'some title',
                 url: 'some url',

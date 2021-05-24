@@ -13,7 +13,6 @@ export interface GifJSON {
   id: string;
   slug: string;
   title: string;
-  rating: string;
   images: Images;
 }
 
@@ -32,7 +31,6 @@ export const NullGifJSON: GifJSON = {
   images: {
     original: NullImage,
   },
-  rating: '',
   slug: '',
   title: '',
   id: '',

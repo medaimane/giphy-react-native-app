@@ -9,8 +9,8 @@ export class GifService implements GifGateway {
 
   getRandomGif(): Observable<GifJSON | null> {
     return this.networkingService
-      .getJSON<GifsJSON>(`v1/gifs/trending`, '&limit=1')
-      .pipe(map<GifsJSON, GifJSON>((json) => json.data[0] ?? null));
+      .getJSON<{data: GifJSON}>(`v1/gifs/random`)
+      .pipe(map<{data: GifJSON}, GifJSON>((json) => json.data ?? null));
   }
 
   search(text: string): Observable<GifJSON[]> {

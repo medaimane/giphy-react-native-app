@@ -1,8 +1,7 @@
 import {Observable, of, throwError} from 'rxjs';
 import {NetworkingServiceStub} from '../../../../__tests__/stubs/NetworkingServiceStub';
 import {GifService} from './GifService';
-import {gifStub} from "../../../../__tests__/stubs/gifStub";
-import {GifJSON, GifsJSON} from "../models/GifJSON";
+import {gifStub} from '../../../../__tests__/stubs/gifStub';
 
 describe('GifService', () => {
   let networkingService: NetworkingServiceStub;
@@ -21,10 +20,11 @@ describe('GifService', () => {
     it('sends GET request to the correct endpoint', () => {
       testUseOfEndpoint(
         () => sut.search('Cat'),
-        `v1/gifs/search`,
-        `&q=Cat&limit=20`,
-          {data: [gifStub]},
-          [gifStub]
+        [`v1/gifs/search`, `&q=Cat&limit=20`],
+
+        {data: [gifStub]},
+        [gifStub],
+
       );
     });
 
@@ -37,10 +37,9 @@ describe('GifService', () => {
     it('sends GET request to the correct endpoint', () => {
       testUseOfEndpoint(
         () => sut.getRandomGif(),
-        `v1/gifs/trending`,
-        `&limit=1`,
-          {data: [gifStub]},
-          gifStub
+        ['v1/gifs/random'],
+        {data: gifStub},
+        gifStub
       );
     });
 
@@ -51,17 +50,16 @@ describe('GifService', () => {
 
   function testUseOfEndpoint<T>(
     testFunction: () => Observable<T>,
-    endpoint: string,
-    params: string,
-    mockResponse: GifsJSON,
-    expectedResponse: GifJSON | GifJSON[]
+    endpointWithParams: [string] | [string, string],
+    mockResponse: any,
+    expectedResponse: any,
   ) {
     const next = jest.fn();
     networkingService.getJSON.mockReturnValue(of(mockResponse));
 
     testFunction().subscribe(next);
 
-    expect(networkingService.getJSON).toBeCalledWith(endpoint, params);
+    expect(networkingService.getJSON).toBeCalledWith(...endpointWithParams);
     expect(next).toBeCalledWith(expectedResponse);
   }
 

@@ -7,7 +7,7 @@ import {Fonts, FontSize} from '../../theme/Fonts';
 import {GifImage} from './GifImage';
 
 export function GifWithDetails(props: {gif: GifPresentable}) {
-  const {rating, title, url, slug} = props.gif;
+  const {title, url, slug} = props.gif;
 
   return (
     <View style={styles.container}>
