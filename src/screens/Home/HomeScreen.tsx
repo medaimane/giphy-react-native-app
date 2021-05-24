@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: Colors.White,
+    paddingTop: 20,
   },
   container: {
     flex: 1,
