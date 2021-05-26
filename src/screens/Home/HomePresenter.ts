@@ -1,4 +1,4 @@
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import {Presenter} from '../../Presenter/Presenter';
 import {RemoteDataState} from '../../Presenter/RemoteDataState';
