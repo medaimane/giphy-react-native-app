@@ -38,6 +38,15 @@ describe('HomePresenter', () => {
   });
 
   describe('fetchRandomGif', () => {
+    it('deos nothing when search input is focused', () => {
+      sut.onSearchFocus();
+
+      sut.fetchRandomGif();
+
+      expect(updateHandlerSpy).not.toBeCalled();
+      expect(dependencies.gifGateway.getRandomGif).not.toBeCalled();
+    });
+
     it('outputs viewState as Loading', () => {
       sut.fetchRandomGif();
 

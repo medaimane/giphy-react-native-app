@@ -25,15 +25,17 @@ export function HomeScreen() {
   );
 
   useEffect(() => {
-    if (!state.isSearchInputFocused) {
-      timer.current.start(
-        () => presenter.fetchRandomGif(),
-        RandomGifDisplayDelay
-      );
-    } else {
+    timer.current.start(
+      () => presenter.fetchRandomGif(),
+      RandomGifDisplayDelay
+    );
+  }, [timer, presenter]);
+
+  useEffect(() => {
+    if (state.isSearchInputFocused) {
       timer.current.stop();
     }
-  }, [timer, presenter, state.isSearchInputFocused]);
+  }, [timer, state.isSearchInputFocused]);
 
   const handleListPress = (gif: GifPresentable) => {
     navigation.navigate(NavigationRoutes.Details, {gif});

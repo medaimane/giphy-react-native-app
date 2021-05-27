@@ -1,4 +1,4 @@
-import {Observable, Subject} from 'rxjs';
+import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import {Presenter} from '../../Presenter/Presenter';
 import {RemoteDataState} from '../../Presenter/RemoteDataState';
@@ -22,6 +22,7 @@ export interface HomeOutput {
 
 export class HomePresenter extends Presenter<HomeOutput> {
   private readonly searchSubject = new Subject<string>();
+  private isSearchInputFocused: boolean = false;
 
   constructor(private readonly gifGateway: GifGateway) {
     super();
@@ -49,6 +50,8 @@ export class HomePresenter extends Presenter<HomeOutput> {
   };
 
   onSearchFocus = () => {
+    this.isSearchInputFocused = true;
+
     this.update({
       title: local.searchResults,
       isSearchInputFocused: true,
@@ -56,6 +59,8 @@ export class HomePresenter extends Presenter<HomeOutput> {
   };
 
   onSearchCancel = () => {
+    this.isSearchInputFocused = false;
+
     this.update({
       title: local.randomSelectedGif,
       isSearchInputFocused: false,
@@ -81,6 +86,10 @@ export class HomePresenter extends Presenter<HomeOutput> {
   };
 
   fetchRandomGif = () => {
+    if (!this.isSearchInputFocused) {
+      return;
+    }
+
     this.update({viewState: RemoteDataState.Loading});
 
     this.gifGateway
